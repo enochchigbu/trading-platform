@@ -1,6 +1,6 @@
 // This file will be the connecting point for the backend business logic to the front end
 
-// In the future, for scalability, there may need to be mulitple web servers that send data to the frontend asynchronously
+// TODO: In the future, for scalability, there may need to be mulitple web servers that send data to the frontend asynchronously
 #include <iostream>
 #include <string>
 #include <vector>
