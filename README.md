@@ -15,11 +15,3 @@ This is a trading platform that leverages a **C++ backend** and a **React fronte
 ### Client Communication
 
 - **Axios** (Typescript) for managing HTTP requests between the frontend and backend.
-
-## Stretch Goals
-
-1. Begin to implement the trading business logic
-
-### Tech Debt
-
-- Change the HTTP Post request on the backend to deprecate `JSON.Parse` on the frontend
