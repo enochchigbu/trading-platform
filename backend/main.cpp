@@ -7,6 +7,7 @@
 
 #include "crow.h"
 #include "crow/middlewares/cors.h"
+#include "trading_engine/market_data/dataParser.cpp"
 
 using namespace std;
 
@@ -24,7 +25,16 @@ int main()
     CROW_ROUTE(app, "/")
     ([]()
      {
-        // Sample JSON response value 
+        crow::json::wvalue response({{"message", "Hello from C++ backend"}});
+
+        // run the system call to get all updated market data with python script
+        int script = system("python3 ./trading_engine/market_data/get_crypto_market_data.py")
+
+        // parse the csv file and get the first line
+        if (script != 0) {
+            
+        }
+
         crow::json::wvalue response({{"message", "Hello from C++ backend"}});
         crow::response res(response);
         res.set_header("Content-Type", "application/json");

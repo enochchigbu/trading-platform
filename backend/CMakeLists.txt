@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Add the executable target
-add_executable(server server.cpp)
+add_executable(main main.cpp)
 
 # Add the path to the Crow and ASIO headers
 include_directories(/opt/homebrew/Cellar/asio/1.30.2/include)
@@ -18,6 +18,6 @@ include_directories(/opt/homebrew/include/Crow/include)
 include_directories(/opt/homebrew/include)
 
 # Link against ASIO and pthread
-target_link_libraries(server PRIVATE pthread)
+target_link_libraries(main PRIVATE pthread)
 
 # Optionally, link any libraries if needed

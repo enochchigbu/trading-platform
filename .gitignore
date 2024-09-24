@@ -34,3 +34,6 @@ frontend/package-lock.json
 backend/build/
 *.o
 *.out
+
+# Alpaca API Keys
+backend/trading_engine/market_data/api_keys.py
