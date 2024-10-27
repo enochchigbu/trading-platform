@@ -1,17 +1,25 @@
 # TODO: Add option functionality in future
 
 import datetime
+import json
+import os
 
 from alpaca.data.historical import CryptoHistoricalDataClient, StockHistoricalDataClient
 from alpaca.data.requests import CryptoBarsRequest, StockBarsRequest
 from alpaca.data.timeframe import TimeFrame
 
-from api_keys import ALPACA_PAPER_API_KEY, ALPACA_PAPER_API_SECRET
+BASE_PATH = "/Users/enochchigbu/Personal Projects/CPP Projects/trading-platform/backend"
+api_keys_path = os.path.join(BASE_PATH, "trading_engine/market_data/api_keys.json")
 
-# Get today's date
+# Get API Keys from json file, store as const
+with open(api_keys_path) as keys_file:
+    keys = json.load(keys_file)
+
+ALPACA_PAPER_API_KEY = keys['ALPACA_PAPER_API_KEY']
+ALPACA_PAPER_API_SECRET = keys['ALPACA_PAPER_API_SECRET']
+
+# Get today's date and date from a week ago
 end_date = datetime.date.today()
-
-# Get the date one week ago
 start_date = end_date - datetime.timedelta(weeks=1)
 
 # Convert the Datetime objects to strings
@@ -41,11 +49,10 @@ stock_request = StockBarsRequest(
 crypto_bars = crypto_client.get_crypto_bars(crypto_request)
 stock_bars = stock_client.get_stock_bars(stock_request)
 
-print(crypto_bars.df)
-print(stock_bars.df)
+
+crypto_data_path = os.path.join(BASE_PATH, "trading_engine/market_data/data/crypto_market_data.csv")
+market_data_path = os.path.join(BASE_PATH, "trading_engine/market_data/data/stock_market_data.csv")
 
 # Convert data to json file and store
-crypto_bars.df.to_json('crypto_market_data.json', orient='records', indent=1)
-stock_bars.df.to_json('stock_market_data.json', orient='records', indent=1)
-crypto_bars.df.to_csv('crypto_market_data.csv')
-stock_bars.df.to_csv('stock_market_data.csv')
+crypto_bars.df.to_csv(crypto_data_path)
+stock_bars.df.to_csv(market_data_path)

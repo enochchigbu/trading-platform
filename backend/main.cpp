@@ -1,13 +1,10 @@
-// This file will be the connecting point for the backend business logic to the front end
-
-// TODO: In the future, for scalability, there may need to be mulitple web servers that send data to the frontend asynchronously
 #include <iostream>
 #include <string>
 #include <vector>
 
 #include "crow.h"
 #include "crow/middlewares/cors.h"
-#include "trading_engine/market_data/dataParser.cpp"
+#include "trading_engine/market_data/parse/data_parser.h"
 
 using namespace std;
 
@@ -25,17 +22,18 @@ int main()
     CROW_ROUTE(app, "/")
     ([]()
      {
-        crow::json::wvalue response({{"message", "Hello from C++ backend"}});
-
         // run the system call to get all updated market data with python script
-        int script = system("python3 ./trading_engine/market_data/get_crypto_market_data.py")
+        system("python3 ../trading_engine/market_data/fetch/data_fetcher.py");
 
-        // parse the csv file and get the first line
-        if (script != 0) {
-            
-        }
+        // Parse the csv file output of the script with the DataParser class
+        vector<DataRow> market_data = DataParser::parseCSV("../trading_engine/market_data/data/stock_market_data.csv");
+        
+        // Run neccesary algorithms in cpp to determine which stocks should be bought
 
-        crow::json::wvalue response({{"message", "Hello from C++ backend"}});
+        // Conduct market orders if neccesary
+
+        // Send data to frontend
+        crow::json::wvalue response({{"message", market_data[0].timestamp}});
         crow::response res(response);
         res.set_header("Content-Type", "application/json");
         return res; });
