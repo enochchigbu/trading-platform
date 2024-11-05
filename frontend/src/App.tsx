@@ -8,10 +8,10 @@ function App() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://0.0.0.0:3001/');
+                const response = await axios.get('http://0.0.0.0:3001/get_market_data_json');
                 console.log(response)
-                //  TODO: Change something to deprecate JSON.Parse
-                setMessage(JSON.parse(response.data).message);
+                const data = JSON.parse(response.data);
+                setMessage(data[0].symbol);
             } catch (error) {
                 console.error('Error fetching data:', error);
                 setMessage('Error fetching data');
